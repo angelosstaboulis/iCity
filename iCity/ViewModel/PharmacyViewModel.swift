@@ -8,6 +8,9 @@
 import Foundation
 import SQLite
 class PharmacyViewModel:ObservableObject{
+    func createPharmacy(){
+        DatabaseManager.shared.createPharmacy()
+    }
     func fetchPharmacy()->PharmacyModel{
         return DatabaseManager.shared.fetchPharmacy()
     }

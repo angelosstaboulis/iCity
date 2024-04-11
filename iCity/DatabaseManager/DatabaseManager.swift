@@ -20,6 +20,7 @@ class DatabaseInit{
                 db = try Connection(pathNew)
             }else{
                 try FileManager.default.copyItem(atPath: path, toPath: pathNew)
+                db = try Connection(pathNew)
             }
             
            
@@ -34,7 +35,23 @@ class DataFetcher{
         var users:[Users] = []
         do{
             for record in try DatabaseInit.shared.initDB().prepare("SELECT * FROM users"){
-                users.append(Users(id:record[0] as! Int64, lastname: String(describing:record[1]!), firstname: String(describing:record[2]!), email: String(describing:record[3]!), password: String(describing:record[4]!)))
+                guard let userID = record[0] else {
+                    return []
+                }
+                guard let lastname = record[1] else {
+                    return []
+                }
+                guard let firstname = record[2] else {
+                    return []
+                }
+                guard let email = record[3] else {
+                    return []
+                }
+                guard let password = record[4] else {
+                    return []
+                }
+                
+                users.append(Users(id:userID as! Int64, lastname: String(describing:lastname), firstname: String(describing:firstname), email: String(describing:email), password: String(describing:password)))
             }
         }catch{
             debugPrint("something went wrong!!!!"+error.localizedDescription)
@@ -48,15 +65,37 @@ class DataFetcher{
         do{
             for record in try DatabaseInit.shared.initDB().prepare("SELECT * FROM pharmacy"){
                 let currentDate = Helper.shared.getDate()
-                let date = String(describing:record[4]!)
-                if currentDate == date{
-                    pharmacy = PharmacyModel(id:record[0] as! Int64, fullname: String(describing:record[1]!), address: String(describing:record[2]!), phone: String(describing:record[3]!), date: String(describing:record[4]!))
+                var getPharmacyID:Int64 = 0
+                var getFullName:String = ""
+                var getAddress:String = ""
+                var getPhone:String = ""
+                var getDateField:String = ""
+                if let pharmacyID = record[0] {
+                    getPharmacyID = pharmacyID as! Int64
                 }
+                if let fullname = record[1] {
+                    getFullName = String(describing:fullname)
+                }
+                if let address = record[2] {
+                    getAddress = String(describing:address)
+                }
+                if let phone = record[3] {
+                    getPhone = String(describing:phone)
+                }
+                if let dateField = record[4] {
+                    getDateField = String(describing:dateField)
+                    
+                }
+                debugPrint(currentDate,getDateField,getPharmacyID,getFullName,getAddress,getPhone)
+                if currentDate == getDateField{
+                    pharmacy = PharmacyModel(id:getPharmacyID, fullname: getFullName, address:getAddress, phone: getPhone, date: getDateField)
+                }
+                
+                
             }
         }catch{
             debugPrint("something went wrong!!!!")
         }
-       
         return pharmacy
     }
     
@@ -64,7 +103,19 @@ class DataFetcher{
         var events:[EventsModel] = []
         do{
             for record in try DatabaseInit.shared.initDB().prepare("SELECT * FROM events"){
-                events.append(EventsModel(id: record[0] as! Int64, eventname:String(describing:record[1]!), eventdescription: String(describing:record[2]!), eventdate:String(describing:record[3]!)))
+                guard let eventID = record[0] else {
+                    return []
+                }
+                guard let eventname = record[1] else {
+                    return []
+                }
+                guard let eventdescription = record[2] else {
+                    return []
+                }
+                guard let eventdate = record[3] else {
+                    return []
+                }
+                events.append(EventsModel(id: eventID as! Int64, eventname:String(describing:eventname), eventdescription: String(describing:eventdescription), eventdate:String(describing:eventdate)))
             }
         }catch{
             debugPrint("something went wrong!!!!")
@@ -77,12 +128,29 @@ class DataFetcher{
         var reports:[ReportsModel] = []
         do{
             for record in try DatabaseInit.shared.initDB().prepare("SELECT * FROM reports"){
-                reports.append(ReportsModel(id: record[0] as! Int64, report_eidos:record[1] as! Int64, report_description:  String(describing:record[2]!), report_fullname: String(describing:record[3]!), report_email: String(describing:record[4]!), report_photo: String(describing:record[5]!)))
+                guard let reportId = record[0] else {
+                    return []
+                }
+                guard let reportEidos = record[1] else {
+                    return []
+                }
+                guard let reportdescription = record[2] else {
+                    return []
+                }
+                guard let reportfullname = record[3] else {
+                    return []
+                }
+                guard let reportEmail = record[4] else {
+                    return []
+                }
+                guard let reportPhoto = record[5] else {
+                    return []
+                }
+                reports.append(ReportsModel(id: reportId as! Int64, report_eidos:reportEidos as! Int64 , report_description:  String(describing:reportdescription), report_fullname: String(describing:reportfullname), report_email: String(describing:reportEmail), report_photo: String(describing:reportPhoto)))
             }
         }catch{
             debugPrint("something went wrong!!!!")
         }
-       
         return reports
     }
     
@@ -99,6 +167,21 @@ class DataManager{
             let password = Expression<String>("password")
             let users = table.insert([id<-Int64.random(in: 1...100000),lastname<-model.lastname,firstname<-model.firstname,email<-model.email,password<-model.password])
             try DatabaseInit.shared.initDB().run(users)
+        }catch{
+            debugPrint("something went wrong!!!!")
+        }
+    }
+    func createPharmacy(){
+        do{
+            let table = Table("pharmacy")
+            let id = Expression<Int64>("id")
+            let fullname = Expression<String>("fullname")
+            let address = Expression<String>("address")
+            let phone = Expression<String>("phone")
+            let date = Expression<String>("date")
+            debugPrint(Helper.shared.getDate())
+            let pharmacy = table.insert([id<-Int64.random(in: 1...100000),fullname<-"Σταμπουλής Αγγελος",address<-"Βενιζέλου Ελευθερίου 29,Κομοτηνή",date<-Helper.shared.getDate()])
+            try DatabaseInit.shared.initDB().run(pharmacy)
         }catch{
             debugPrint("something went wrong!!!!")
         }
@@ -124,6 +207,9 @@ class DatabaseManager{
     let manager = DataManager()
     static let shared = DatabaseManager()
     private init(){}
+    func createPharmacy(){
+        manager.createPharmacy()
+    }
     func createUser(model:Users){
         manager.createUser(model: model)
     }

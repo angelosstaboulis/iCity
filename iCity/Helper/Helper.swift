@@ -27,11 +27,13 @@ class Helper{
         return await withCheckedContinuation { continuation in
             let address = CLGeocoder()
             let addressNew = pharmacy
+            var coordinateLocation = CLLocation()
             address.geocodeAddressString(addressNew) { placemark, error in
                 if let location = placemark?.first?.location{
-                    let coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                    continuation.resume(returning: coordinate)
+                   coordinateLocation = location
                 }
+                let coordinate = CLLocationCoordinate2D(latitude: coordinateLocation.coordinate.latitude, longitude: coordinateLocation.coordinate.longitude)
+                continuation.resume(returning: coordinate)
             }
         }
         
@@ -76,6 +78,9 @@ class Helper{
         return Calendar.current.component(.day, from: Date())
     }
     func getLastDay()->Int{
-        return Calendar.current.range(of: .day, in: .month, for: Date())!.upperBound - 1
+        guard let lastDay =  Calendar.current.range(of: .day, in: .month, for: Date()) else {
+            return 0
+        }
+        return lastDay.upperBound - 1
     }
 }

@@ -37,6 +37,7 @@ struct Pharmacy: View {
                 }.frame(width:300,height:300)
             }
         }.onAppear {
+            pharmacyViewModel.createPharmacy()
             pharmacy = pharmacyViewModel.fetchPharmacy()
         }
     }
