@@ -49,9 +49,24 @@ struct Report: View {
                         
                     }
                 label: {
-                    Text("Type")
+                    Text("Please Select Type")
                 }
-                    
+                    Text("Selected Type")
+                    if model.report_eidos == 1{
+                        Text("Οδοποία - Συντήρηση")
+                    }
+                    if model.report_eidos == 2{
+                        Text("Ηλεκτροφωτισμός")
+                    }
+                    if model.report_eidos == 3{
+                        Text("Καθαριότητα - Ανακκύλωση")
+                    }
+                    if model.report_eidos == 4{
+                        Text("Υδρευση - Αποχετευση")
+                    }
+                    if model.report_eidos == 5{
+                        Text("Πυρκαγιά - Πλημμύρα - Σεισμός")
+                    }
                     Text("FullName")
                     TextField("FullName", text: $model.report_fullname)
                     Text("Email")
@@ -62,13 +77,15 @@ struct Report: View {
                         selection: $selectedItem,
                         matching: .images,
                         photoLibrary: .shared()) {
-                            Text("Select a photo")
+                            Text("Please Select a photo")
                         }.onChange(of: selectedItem) { newValue in
                             if let contentType = newValue?.supportedContentTypes.first{
                                 let url = "\(UUID().uuidString).\(contentType.preferredFilenameExtension ?? "")"
                                 model.report_photo = url
                             }
                         }
+                    Text("Photo Path")
+                    Text(model.report_photo)
                     Button(action: {
                         object.createReport(model: model)
                     }, label: {
