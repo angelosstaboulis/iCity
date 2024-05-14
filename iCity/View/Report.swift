@@ -78,14 +78,32 @@ struct Report: View {
                         matching: .images,
                         photoLibrary: .shared()) {
                             Text("Please Select a photo")
-                        }.onChange(of: selectedItem) { newValue in
-                            if let contentType = newValue?.supportedContentTypes.first{
-                                let url = "\(UUID().uuidString).\(contentType.preferredFilenameExtension ?? "")"
-                                model.report_photo = url
-                            }
+                        }.onChange(of: selectedItem) { oldValue, newValue in                              
+                                Task{
+                                    if let contentType = newValue?.supportedContentTypes.first{
+                                        let url = "\(UUID().uuidString).\(contentType.preferredFilenameExtension ?? "")"
+                                        model.report_photo = url
+                                        
+                                    }
+                                    if let selectedImage = try await selectedItem?.loadTransferable(type: Data.self){
+                                        model.report_image = selectedImage
+                                        
+                                    }
+                                }
+                        
                         }
-                    Text("Photo Path")
-                    Text(model.report_photo)
+                    VStack{
+                        Text("Photo Path").frame(width:310,height:45,alignment:.leading).font(.system(size: 16.0))
+                        Text(model.report_photo).frame(width:350,height:45,alignment:.leading).font(.system(size: 14.0))
+                    }.frame(width:450,height:45)
+                        NavigationStack{
+                            NavigationLink {
+                                DetailsPhoto(photo:model.report_image)
+                            } label: {
+                                Text("Show Photo")
+                            }
+
+                        }
                     Button(action: {
                         object.createReport(model: model)
                     }, label: {
@@ -106,5 +124,5 @@ struct Report: View {
 }
 
 #Preview {
-    Report(model: .init(id: 0, report_eidos: 0, report_description: "", report_fullname: "", report_email: "", report_photo: ""), selection: 0)
+    Report(model: .init(id: 0, report_eidos: 0, report_description: "", report_fullname: "", report_email: "", report_photo: "", report_image: .init()), selection: 0)
 }

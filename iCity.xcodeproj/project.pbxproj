@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D60EC0572BC1F11100051669 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = D60EC0562BC1F11100051669 /* SQLite */; };
 		D644E4AA2BC3BE0600BE8DEF /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D644E4A92BC3BE0600BE8DEF /* UsersViewModel.swift */; };
+		D66AF9272BF3907300882C68 /* DetailsPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66AF9262BF3907300882C68 /* DetailsPhoto.swift */; };
 		D68355B22BC3064500AFF13C /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68355B12BC3064500AFF13C /* Users.swift */; };
 		D690A08C2BC5D71B00DF4590 /* ReportsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D690A08B2BC5D71B00DF4590 /* ReportsModel.swift */; };
 		D690A08E2BC5D79600DF4590 /* ReportsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D690A08D2BC5D79600DF4590 /* ReportsViewModel.swift */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		D644E4A92BC3BE0600BE8DEF /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
+		D66AF9262BF3907300882C68 /* DetailsPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPhoto.swift; sourceTree = "<group>"; };
 		D68355B12BC3064500AFF13C /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		D690A08B2BC5D71B00DF4590 /* ReportsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsModel.swift; sourceTree = "<group>"; };
 		D690A08D2BC5D79600DF4590 /* ReportsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsViewModel.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				D6D006A82BC4357A0087D62A /* Pharmacy.swift */,
 				D690A08F2BC5EF9800DF4590 /* Utilities.swift */,
 				D690A0912BC5F1BC00DF4590 /* ListReports.swift */,
+				D66AF9262BF3907300882C68 /* DetailsPhoto.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				D6C78FB22BC1328E0085B714 /* MainMenu.swift in Sources */,
 				D6DC33AC2BC5286600C36D84 /* EventsModel.swift in Sources */,
 				D6D006AF2BC435E90087D62A /* PharmacyViewModel.swift in Sources */,
+				D66AF9272BF3907300882C68 /* DetailsPhoto.swift in Sources */,
 				D690A08C2BC5D71B00DF4590 /* ReportsModel.swift in Sources */,
 				D693D7702BC676300062B760 /* DatabaseManager.swift in Sources */,
 			);

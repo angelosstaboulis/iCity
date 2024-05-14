@@ -11,7 +11,7 @@ struct MainMenu: View {
     var body: some View {
         VStack{
             TabView{
-                Report(model:.init(id: 0, report_eidos: 1, report_description: "", report_fullname: "", report_email: "", report_photo: ""), selection: 0)
+                Report(model:.init(id: 0, report_eidos: 1, report_description: "", report_fullname: "", report_email: "", report_photo: "", report_image: .init()), selection: 0)
                     .tabItem {
                         Image("report").resizable()
                         Text("Report")
