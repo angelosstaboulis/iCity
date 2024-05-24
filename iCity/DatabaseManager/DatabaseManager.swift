@@ -146,7 +146,7 @@ class DataFetcher{
                 guard let reportPhoto = record[5] else {
                     return []
                 }
-                reports.append(ReportsModel(id: reportId as! Int64, report_eidos:reportEidos as! Int64 , report_description:  String(describing:reportdescription), report_fullname: String(describing:reportfullname), report_email: String(describing:reportEmail), report_photo: String(describing:reportPhoto), report_image: .init()))
+                reports.append(ReportsModel(id: reportId as! Int64, report_eidos:reportEidos as! Int64 , report_description:  String(describing:reportdescription), report_fullname: String(describing:reportfullname), report_email: String(describing:reportEmail), report_photo: String(describing:reportPhoto)))
             }
         }catch{
             debugPrint("something went wrong!!!!")

@@ -49,24 +49,9 @@ struct Report: View {
                         
                     }
                 label: {
-                    Text("Please Select Type")
+                    Text("Type")
                 }
-                    Text("Selected Type")
-                    if model.report_eidos == 1{
-                        Text("Οδοποία - Συντήρηση")
-                    }
-                    if model.report_eidos == 2{
-                        Text("Ηλεκτροφωτισμός")
-                    }
-                    if model.report_eidos == 3{
-                        Text("Καθαριότητα - Ανακκύλωση")
-                    }
-                    if model.report_eidos == 4{
-                        Text("Υδρευση - Αποχετευση")
-                    }
-                    if model.report_eidos == 5{
-                        Text("Πυρκαγιά - Πλημμύρα - Σεισμός")
-                    }
+                    
                     Text("FullName")
                     TextField("FullName", text: $model.report_fullname)
                     Text("Email")
@@ -77,32 +62,12 @@ struct Report: View {
                         selection: $selectedItem,
                         matching: .images,
                         photoLibrary: .shared()) {
-                            Text("Please Select a photo")
-                        }.onChange(of: selectedItem) { oldValue, newValue in                              
-                                Task{
-                                    if let contentType = newValue?.supportedContentTypes.first{
-                                        let url = "\(UUID().uuidString).\(contentType.preferredFilenameExtension ?? "")"
-                                        model.report_photo = url
-                                        
-                                    }
-                                    if let selectedImage = try await selectedItem?.loadTransferable(type: Data.self){
-                                        model.report_image = selectedImage
-                                        
-                                    }
-                                }
-                        
-                        }
-                    VStack{
-                        Text("Photo Path").frame(width:310,height:45,alignment:.leading).font(.system(size: 16.0))
-                        Text(model.report_photo).frame(width:350,height:45,alignment:.leading).font(.system(size: 14.0))
-                    }.frame(width:450,height:45)
-                        NavigationStack{
-                            NavigationLink {
-                                DetailsPhoto(photo:model.report_image)
-                            } label: {
-                                Text("Show Photo")
+                            Text("Select a photo")
+                        }.onChange(of: selectedItem) { newValue in
+                            if let contentType = newValue?.supportedContentTypes.first{
+                                let url = "\(UUID().uuidString).\(contentType.preferredFilenameExtension ?? "")"
+                                model.report_photo = url
                             }
-
                         }
                     Button(action: {
                         object.createReport(model: model)
@@ -124,5 +89,5 @@ struct Report: View {
 }
 
 #Preview {
-    Report(model: .init(id: 0, report_eidos: 0, report_description: "", report_fullname: "", report_email: "", report_photo: "", report_image: .init()), selection: 0)
+    Report(model: .init(id: 0, report_eidos: 0, report_description: "", report_fullname: "", report_email: "", report_photo: ""), selection: 0)
 }

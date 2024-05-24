@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ElegantCalendar
 struct Events: View {
     var vGridLayout = [
         GridItem(.fixed(60)),GridItem(.fixed(55)),GridItem(.fixed(55)),GridItem(.fixed(55)),GridItem(.fixed(55))
