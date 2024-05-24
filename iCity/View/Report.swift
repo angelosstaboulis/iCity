@@ -51,7 +51,22 @@ struct Report: View {
                 label: {
                     Text("Type")
                 }
-                    
+                    Text("Selected Type")
+                    if model.report_eidos == 1 {
+                        Text("Οδοποίια-Συντηρηση")
+                    }
+                    if model.report_eidos == 2 {
+                        Text("Ηλεκτροφωτισμός")
+                    }
+                    if model.report_eidos == 3 {
+                        Text("Καθαριότητα - Ανακύκλωση")
+                    }
+                    if model.report_eidos == 4 {
+                        Text("Υδρευση - Αποχέτευση")
+                    }
+                    if model.report_eidos == 5 {
+                        Text("Πυρκαγιά - Πλημμύρα - Σεισμός")
+                    }
                     Text("FullName")
                     TextField("FullName", text: $model.report_fullname)
                     Text("Email")

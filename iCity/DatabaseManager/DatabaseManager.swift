@@ -8,33 +8,37 @@
 import Foundation
 import SQLite
 class DatabaseInit{
-    static let shared = DatabaseInit()
-    private init(){}
+    func createConnection() -> Connection{
+        let path = Bundle.main.resourcePath!
+        
+        let sourcePath = "\(path)/iCity.db"
+        
+        _ = copyDatabaseIfNeeded(sourcePath: sourcePath)
+        
+        let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let destinationPath = documents + "/iCity.db"
 
-    func initDB()->Connection{
-        var db:Connection?
-        do{
-            let path = Bundle.main.resourcePath! + "/iCity.db"
-            let pathNew = URL.applicationDirectory.path() + "iCity.db"
-            if FileManager.default.fileExists(atPath: pathNew){
-                db = try Connection(pathNew)
-            }else{
-                try FileManager.default.copyItem(atPath: path, toPath: pathNew)
-                db = try Connection(pathNew)
-            }
-            
-           
-        }catch{
-            debugPrint("something went wrong!!!!!"+error.localizedDescription)
+        return try! Connection(destinationPath)
+    }
+    func copyDatabaseIfNeeded(sourcePath: String) -> Bool {
+        let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let destinationPath = documents + "/iCity.db"
+        let exists = FileManager.default.fileExists(atPath: destinationPath)
+        guard !exists else { return false }
+        do {
+            try FileManager.default.copyItem(atPath: sourcePath, toPath: destinationPath)
+            return true
+        } catch {
+            print("error during file copy: \(error)")
+            return false
         }
-        return db!
     }
 }
 class DataFetcher{
-    func fetchUsers() -> [Users] {
+    func fetchUsers(connection:DatabaseInit) -> [Users] {
         var users:[Users] = []
         do{
-            for record in try DatabaseInit.shared.initDB().prepare("SELECT * FROM users"){
+            for record in try connection.createConnection().prepare("SELECT * FROM users"){
                 guard let userID = record[0] else {
                     return []
                 }
@@ -60,10 +64,10 @@ class DataFetcher{
         return users
     }
     
-    func fetchPharmacy() -> PharmacyModel {
+    func fetchPharmacy(connection:DatabaseInit) -> PharmacyModel {
         var pharmacy = PharmacyModel(id: 0, fullname: "", address: "", phone: "", date: "")
         do{
-            for record in try DatabaseInit.shared.initDB().prepare("SELECT * FROM pharmacy"){
+            for record in try connection.createConnection().prepare("SELECT * FROM pharmacy"){
                 let currentDate = Helper.shared.getDate()
                 var getPharmacyID:Int64 = 0
                 var getFullName:String = ""
@@ -99,10 +103,10 @@ class DataFetcher{
         return pharmacy
     }
     
-    func fetchEvents() -> [EventsModel] {
+    func fetchEvents(connection:DatabaseInit) -> [EventsModel] {
         var events:[EventsModel] = []
         do{
-            for record in try DatabaseInit.shared.initDB().prepare("SELECT * FROM events"){
+            for record in try connection.createConnection().prepare("SELECT * FROM events"){
                 guard let eventID = record[0] else {
                     return []
                 }
@@ -124,10 +128,10 @@ class DataFetcher{
         return events
     }
     
-    func fetchReports() -> [ReportsModel] {
+    func fetchReports(connection:DatabaseInit) -> [ReportsModel] {
         var reports:[ReportsModel] = []
         do{
-            for record in try DatabaseInit.shared.initDB().prepare("SELECT * FROM reports"){
+            for record in try connection.createConnection().prepare("SELECT * FROM reports"){
                 guard let reportId = record[0] else {
                     return []
                 }
@@ -157,7 +161,7 @@ class DataFetcher{
     
 }
 class DataManager{
-    func createUser(model:Users){
+    func createUser(connection:DatabaseInit,model:Users){
         do{
             let table = Table("Users")
             let id = Expression<Int64>("id")
@@ -166,12 +170,12 @@ class DataManager{
             let email = Expression<String>("email")
             let password = Expression<String>("password")
             let users = table.insert([id<-Int64.random(in: 1...100000),lastname<-model.lastname,firstname<-model.firstname,email<-model.email,password<-model.password])
-            try DatabaseInit.shared.initDB().run(users)
+            try connection.createConnection().run(users)
         }catch{
             debugPrint("something went wrong!!!!")
         }
     }
-    func createPharmacy(){
+    func createPharmacy(connection:DatabaseInit){
         do{
             let table = Table("pharmacy")
             let id = Expression<Int64>("id")
@@ -181,12 +185,12 @@ class DataManager{
             let date = Expression<String>("date")
             debugPrint(Helper.shared.getDate())
             let pharmacy = table.insert([id<-Int64.random(in: 1...100000),fullname<-"Σταμπουλής Αγγελος",address<-"Βενιζέλου Ελευθερίου 29,Κομοτηνή",date<-Helper.shared.getDate()])
-            try DatabaseInit.shared.initDB().run(pharmacy)
+            try connection.createConnection().run(pharmacy)
         }catch{
             debugPrint("something went wrong!!!!")
         }
     }
-    func createReport(model:ReportsModel){
+    func createReport(connection:DatabaseInit,model:ReportsModel){
         do{
             let table = Table("reports")
             let id = Expression<Int64>("id")
@@ -196,37 +200,38 @@ class DataManager{
             let report_email = Expression<String>("report_email")
             let report_photo = Expression<String>("report_photo")
             let report = table.insert([id<-Int64.random(in: 1...100000),report_eidos<-model.report_eidos,report_description<-model.report_description,report_fullname<-model.report_fullname,report_email<-model.report_email,report_photo<-model.report_photo])
-            try DatabaseInit.shared.initDB().run(report)
+            try connection.createConnection().run(report)
         }catch{
             debugPrint("something went wrong!!!!")
         }
     }
 }
 class DatabaseManager{
+    let connectionDB = DatabaseInit()
     let fetcher = DataFetcher()
     let manager = DataManager()
     static let shared = DatabaseManager()
     private init(){}
     func createPharmacy(){
-        manager.createPharmacy()
+        manager.createPharmacy(connection: connectionDB)
     }
     func createUser(model:Users){
-        manager.createUser(model: model)
+        manager.createUser(connection: connectionDB,model: model)
     }
     func createReport(model:ReportsModel){
-        manager.createReport(model: model)
+        manager.createReport(connection: connectionDB,model: model)
     }
     func fetchEvents()->[EventsModel]{
-        return fetcher.fetchEvents()
+        return fetcher.fetchEvents(connection: connectionDB)
     }
     func fetchPharmacy()->PharmacyModel{
-        return fetcher.fetchPharmacy()
+        return fetcher.fetchPharmacy(connection: connectionDB)
     }
     func fetchUsers()->[Users]{
-        return fetcher.fetchUsers()
+        return fetcher.fetchUsers(connection: connectionDB)
     }
     func fetchReports()->[ReportsModel]{
-        return fetcher.fetchReports()
+        return fetcher.fetchReports(connection: connectionDB)
     }
     
 }
