@@ -10,7 +10,8 @@ import PhotosUI
 import Foundation
 struct Report: View {
     @State var model:ReportsModel
-    @State private var selectedItem: PhotosPickerItem? = nil
+    @State private var selectedItems:[PhotosPickerItem] = []
+    @State var selectedImage:Data
     @StateObject var object = ReportsViewModel()
     @State var selection:Int64
     var body: some View {
@@ -74,16 +75,38 @@ struct Report: View {
                     Text("Description")
                     TextField("Description", text: $model.report_description)
                     PhotosPicker(
-                        selection: $selectedItem,
+                        selection: $selectedItems,
                         matching: .images,
                         photoLibrary: .shared()) {
                             Text("Select a photo")
-                        }.onChange(of: selectedItem) { newValue in
-                            if let contentType = newValue?.supportedContentTypes.first{
-                                let url = "\(UUID().uuidString).\(contentType.preferredFilenameExtension ?? "")"
-                                model.report_photo = url
+                        }.onChange(of: selectedItems) { newValue in
+                            Task {
+                                if let item = selectedItems.first{
+                                    if let image = try? await item.loadTransferable(type: Data.self) {
+                                        if let contentType = item.supportedContentTypes.first{
+                                            let filename = UUID().uuidString+".".appending(contentType.preferredFilenameExtension!)
+                                            model.report_photo = filename
+                                        }
+                                        selectedImage = image
+                                    }
+                                }
+                               
+                                          
                             }
-                        }
+                    }
+                    Text("Selected Photo")
+                    Text(model.report_photo)
+                    NavigationLink {
+                        VStack{
+                            if let getPhoto = UIImage(data: selectedImage){
+                                          Image(uiImage: getPhoto)
+                                              .resizable()
+                            }
+                        }.navigationTitle("Photo Viewer")
+                              .navigationBarTitleDisplayMode(.inline)
+                    } label: {
+                        Text("Open Selected Photo")
+                    }
                     Button(action: {
                         object.createReport(model: model)
                     }, label: {
@@ -103,6 +126,4 @@ struct Report: View {
     }
 }
 
-#Preview {
-    Report(model: .init(id: 0, report_eidos: 0, report_description: "", report_fullname: "", report_email: "", report_photo: ""), selection: 0)
-}
+

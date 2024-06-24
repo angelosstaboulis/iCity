@@ -183,8 +183,7 @@ class DataManager{
             let address = Expression<String>("address")
             let phone = Expression<String>("phone")
             let date = Expression<String>("date")
-            debugPrint(Helper.shared.getDate())
-            let pharmacy = table.insert([id<-Int64.random(in: 1...100000),fullname<-"Σταμπουλής Αγγελος",address<-"Βενιζέλου Ελευθερίου 29,Κομοτηνή",date<-Helper.shared.getDate()])
+            let pharmacy = table.insert([id<-Int64.random(in: 1...100000),fullname<-"Σταμπουλής Αγγελος",address<-"Βενιζέλου Ελευθερίου 29,Κομοτηνή",phone<-"694207544",date<-Helper.shared.getDate()])
             try connection.createConnection().run(pharmacy)
         }catch{
             debugPrint("something went wrong!!!!")
