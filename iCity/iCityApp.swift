@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct iCityApp: App {
+    @StateObject private var viewModel = RouteViewModel()
+
     var body: some Scene {
         WindowGroup {
-            ContentView(users: .init(id: 0, lastname: "", firstname: "", email: "", password: ""))
+            ContentView(users: .init(id: 0, lastname: "", firstname: "", email: "", password: ""), isPresented: false)
+                .environmentObject(viewModel)
         }
     }
 }

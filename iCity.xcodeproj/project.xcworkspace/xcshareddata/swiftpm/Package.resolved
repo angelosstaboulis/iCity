@@ -1,5 +1,5 @@
 {
-  "originHash" : "96e0b2c5aa6295de957dc9d748d3b6d7a3925386507df9cee99ca8de309e3cf7",
+  "originHash" : "b57a737c2741b455d463bf5abec7c539ad8f1bcfe5f1314bd5f20d674eec3b02",
   "pins" : [
     {
       "identity" : "sqlite.swift",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "e78ae0220e17525a15ac68c697a155eb7a672a8e",
         "version" : "0.15.0"
+      }
+    },
+    {
+      "identity" : "toastui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/quanshousio/ToastUI.git",
+      "state" : {
+        "revision" : "1828801ea49e2ab900ca5e6bb18245312fda66a2",
+        "version" : "3.0.1"
       }
     }
   ],

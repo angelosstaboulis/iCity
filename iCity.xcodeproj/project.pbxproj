@@ -10,6 +10,9 @@
 		D60EC0572BC1F11100051669 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = D60EC0562BC1F11100051669 /* SQLite */; };
 		D644E4AA2BC3BE0600BE8DEF /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D644E4A92BC3BE0600BE8DEF /* UsersViewModel.swift */; };
 		D68355B22BC3064500AFF13C /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68355B12BC3064500AFF13C /* Users.swift */; };
+		D68781CB2C32694D0060D1FF /* PhotoViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68781CA2C32694D0060D1FF /* PhotoViewer.swift */; };
+		D68781CE2C326CEC0060D1FF /* ToastUI in Frameworks */ = {isa = PBXBuildFile; productRef = D68781CD2C326CEC0060D1FF /* ToastUI */; };
+		D68781D02C326F5B0060D1FF /* RouteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68781CF2C326F5B0060D1FF /* RouteViewModel.swift */; };
 		D690A08C2BC5D71B00DF4590 /* ReportsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D690A08B2BC5D71B00DF4590 /* ReportsModel.swift */; };
 		D690A08E2BC5D79600DF4590 /* ReportsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D690A08D2BC5D79600DF4590 /* ReportsViewModel.swift */; };
 		D690A0902BC5EF9800DF4590 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D690A08F2BC5EF9800DF4590 /* Utilities.swift */; };
@@ -58,6 +61,8 @@
 /* Begin PBXFileReference section */
 		D644E4A92BC3BE0600BE8DEF /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
 		D68355B12BC3064500AFF13C /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		D68781CA2C32694D0060D1FF /* PhotoViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewer.swift; sourceTree = "<group>"; };
+		D68781CF2C326F5B0060D1FF /* RouteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteViewModel.swift; sourceTree = "<group>"; };
 		D690A08B2BC5D71B00DF4590 /* ReportsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsModel.swift; sourceTree = "<group>"; };
 		D690A08D2BC5D79600DF4590 /* ReportsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsViewModel.swift; sourceTree = "<group>"; };
 		D690A08F2BC5EF9800DF4590 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -94,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D68781CE2C326CEC0060D1FF /* ToastUI in Frameworks */,
 				D60EC0572BC1F11100051669 /* SQLite in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -122,6 +128,7 @@
 				D6D006AE2BC435E90087D62A /* PharmacyViewModel.swift */,
 				D6DC33A92BC5260700C36D84 /* EventsViewModel.swift */,
 				D690A08D2BC5D79600DF4590 /* ReportsViewModel.swift */,
+				D68781CF2C326F5B0060D1FF /* RouteViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -220,6 +227,7 @@
 				D6D006A82BC4357A0087D62A /* Pharmacy.swift */,
 				D690A08F2BC5EF9800DF4590 /* Utilities.swift */,
 				D690A0912BC5F1BC00DF4590 /* ListReports.swift */,
+				D68781CA2C32694D0060D1FF /* PhotoViewer.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -250,6 +258,7 @@
 			name = iCity;
 			packageProductDependencies = (
 				D60EC0562BC1F11100051669 /* SQLite */,
+				D68781CD2C326CEC0060D1FF /* ToastUI */,
 			);
 			productName = iCity;
 			productReference = D6C78F7F2BC120EB0085B714 /* iCity.app */;
@@ -325,6 +334,7 @@
 			mainGroup = D6C78F762BC120EB0085B714;
 			packageReferences = (
 				D60EC0552BC1F11100051669 /* XCRemoteSwiftPackageReference "SQLite.swift" */,
+				D68781CC2C326CEC0060D1FF /* XCRemoteSwiftPackageReference "ToastUI" */,
 			);
 			productRefGroup = D6C78F802BC120EB0085B714 /* Products */;
 			projectDirPath = "";
@@ -378,7 +388,9 @@
 				D6D006AD2BC435C00087D62A /* PharmacyModel.swift in Sources */,
 				D6C78F852BC120EB0085B714 /* ContentView.swift in Sources */,
 				D6A2EB6B2BC172690091831B /* Events.swift in Sources */,
+				D68781CB2C32694D0060D1FF /* PhotoViewer.swift in Sources */,
 				D6D006A92BC4357A0087D62A /* Pharmacy.swift in Sources */,
+				D68781D02C326F5B0060D1FF /* RouteViewModel.swift in Sources */,
 				D6C78F832BC120EB0085B714 /* iCityApp.swift in Sources */,
 				D644E4AA2BC3BE0600BE8DEF /* UsersViewModel.swift in Sources */,
 				D690A0922BC5F1BD00DF4590 /* ListReports.swift in Sources */,
@@ -732,6 +744,14 @@
 				minimumVersion = 0.15.0;
 			};
 		};
+		D68781CC2C326CEC0060D1FF /* XCRemoteSwiftPackageReference "ToastUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/quanshousio/ToastUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -739,6 +759,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D60EC0552BC1F11100051669 /* XCRemoteSwiftPackageReference "SQLite.swift" */;
 			productName = SQLite;
+		};
+		D68781CD2C326CEC0060D1FF /* ToastUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D68781CC2C326CEC0060D1FF /* XCRemoteSwiftPackageReference "ToastUI" */;
+			productName = ToastUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -88,6 +88,7 @@ struct Report: View {
                                             model.report_photo = filename
                                         }
                                         selectedImage = image
+                                        
                                     }
                                 }
                                
@@ -97,13 +98,7 @@ struct Report: View {
                     Text("Selected Photo")
                     Text(model.report_photo)
                     NavigationLink {
-                        VStack{
-                            if let getPhoto = UIImage(data: selectedImage){
-                                          Image(uiImage: getPhoto)
-                                              .resizable()
-                            }
-                        }.navigationTitle("Photo Viewer")
-                              .navigationBarTitleDisplayMode(.inline)
+                       PhotoViewer(selectedImage: selectedImage)
                     } label: {
                         Text("Open Selected Photo")
                     }
